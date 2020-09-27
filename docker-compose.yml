@@ -1,0 +1,4 @@
+messaging:
+       image: 'rabbitmq:3.8.8-management'
+       ports:
+           - 15672:15672
