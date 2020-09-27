@@ -9,3 +9,7 @@ db:
        restart: always
        environment: 
             MYSQL_ROOT_PASSWORD: 'example'
+front-end:
+       build: front-end/
+       ports:
+           - 5000:5000
