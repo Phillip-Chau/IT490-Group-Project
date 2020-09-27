@@ -2,3 +2,10 @@ messaging:
        image: 'rabbitmq:3.8.8-management'
        ports:
            - 15672:15672
+
+db:
+       image: 'mysql'
+       command: --default-authentication-plugin=mysql_native_password
+       restart: always
+       environment: 
+            MYSQL_ROOT_PASSWORD: 'example'
