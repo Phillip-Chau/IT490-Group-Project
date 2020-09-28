@@ -13,4 +13,4 @@ front-end:
        ports:
            - 5000:5000
 back-end: 
-	build: back-end/
+       build: back-end/
