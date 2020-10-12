@@ -1,5 +1,9 @@
 import pika
 import mysql.connector
+import os
+import time
+import logging
+import json 
 
 def process_request(ch, method, properties, body):
     """
@@ -44,8 +48,7 @@ def process_request(ch, method, properties, body):
         routing_key=properties.reply_to,
         body=json.dumps(response)
     )
-cnx = mysql.connector.connect(user='tester1', password='pwsd',
-                              host='localhost',
-                              database='users')
+cnx = mysql.connector.connect(user='tester1', password='pwsd', host='db', database='users')
 cnx.close()
+
 print("Back End Is Running Now")
