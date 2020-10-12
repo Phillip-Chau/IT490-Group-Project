@@ -4,6 +4,7 @@ import os
 import time
 import logging
 import json 
+from mysql.connector import errorcode
 
 def process_request(ch, method, properties, body):
     """
@@ -48,7 +49,17 @@ def process_request(ch, method, properties, body):
         routing_key=properties.reply_to,
         body=json.dumps(response)
     )
-cnx = mysql.connector.connect(user='tester1', password='pwsd', host='db', database='users')
-cnx.close()
+
+try:
+  cnx = mysql.connector.connect(user='tester1', password='pwsd', host='db', database='users')
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print("Something is wrong with your user name or password")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print("Database does not exist")
+  else:
+    print(err)
+else:
+  cnx.close()
 
 print("Back End Is Running Now")
