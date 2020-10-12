@@ -5,6 +5,10 @@ services:
            image: 'rabbitmq:3.8.8-management'
            ports:
                - 15672:15672
+    adminer:
+        image: adminer
+        ports:
+             - 8080:8080
     db:
            build: db/
            command: --default-authentication-plugin=mysql_native_password
