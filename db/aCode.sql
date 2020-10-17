@@ -1,3 +1,4 @@
+CREATE DATABASE users
 CREATE TABLE user (
 name VARCHAR(20)
 password VARCHAR(255)
