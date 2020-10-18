@@ -33,7 +33,7 @@ services:
             FLASK_ENV: development
             FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
         volumes:
-            - "./front_end:/app"
+            - "./front-end:/app"
     back-end: 
         build: back-end/
 volumes:

@@ -6,18 +6,18 @@ import messaging
 import os
 
 app = Flask(__name__)
-app.secret_key = os.enviorn['FLASK_SECRET_KEY']
+app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 logging.basicConfig(level=logging.INFO)
 
 def login_required(f):
 
     @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if 'uname' not in session:
-                return redirect('/login')
-            return f(*args, **kwargs)
-        return decorated_function
+    def decorated_function(*args, **kwargs):
+        if 'uname' not in session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
 def index():
