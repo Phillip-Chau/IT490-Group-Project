@@ -36,5 +36,5 @@ services:
             - "./front_end:/app"
     back-end: 
         build: back-end/
-    volumes:
-        data-volume:
+volumes:
+    data-volume:
