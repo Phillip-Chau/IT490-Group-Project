@@ -98,11 +98,7 @@ channel.basic_consume(queue='request', auto_ack=True,
                       on_message_callback=process_request)
 
 logging.info("Testing a query...")
-curr.execute('INSERT INTO user VALUES ("Kurt");')
-cursor = cnx.cursor()
-cursor.execute("SELECT * FROM user")
-for row in cursor:
-  logging.info(row)
+
 
 logging.info("Back End Is Running Now")
 
