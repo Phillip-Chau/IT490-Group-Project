@@ -68,8 +68,8 @@ while True:
         logging.info(f"Success: {cnx}")
         logging.info("connecting to messaging service...")
         credentials = pika.PlainCredentials(
-	      'guest',
-	      'guest'
+	      os.environ['RABBITMQ_DEFAULT_USER'],
+              os.environ['RABBITMQ_DEFAULT_PASS']
 	)
         connection = pika.BlockingConnection(
 	      pika.ConnectionParameters(

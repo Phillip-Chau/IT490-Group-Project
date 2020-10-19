@@ -35,6 +35,10 @@ services:
         volumes:
             - "./front-end:/app"
     back-end: 
-        build: back-end/
+        build: ./back-end
+        environment:
+           RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+           RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+           MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 volumes:
     data-volume:
