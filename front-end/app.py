@@ -14,7 +14,7 @@ def login_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'uname' not in session:
+        if 'name' not in session:
             return redirect('/login')
         return f(*args, **kwargs)
     return decorated_function
@@ -31,19 +31,19 @@ def secret():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        uname = request.form['uname']
+        name = request.form['name']
         password = request.form['password']
         msg = messaging.Messaging()
         msg.send(
             'REGISTER',
             {
-                'uname': uname,
+                'name': name,
                 'hash': generate_password_hash(password)
             }
         )
         response = msg.receive()
         if response['success']:
-            session['uname'] = uname
+            session['name'] = name
             return redirect('/')
         else:
             return f"{response['message']}"
@@ -52,15 +52,15 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        uname = request.form['uname']
+        name = request.form['name']
         password = request.form['password']
         msg = messaging.Messaging()
-        msg.send('GETHASH', { 'uname': uname })
+        msg.send('GETHASH', { 'name': name })
         response = msg.receive()
         if response['success'] != True:
             return "Login failed."
         if check_password_hash(response['hash'], password):
-            session['uname'] = uname
+            session['name'] = name
             return redirect('/')
         else:
             return "Login failed."
@@ -68,7 +68,7 @@ def login():
     
 @app.route('/logout')
 def logout():
-    session.pop('email', None)
+    session.pop('name', None)
     return redirect('/')
 
 if __name__ == '__main__':

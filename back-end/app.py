@@ -21,22 +21,22 @@ def process_request(ch, method, properties, body):
             data = request['data']
             name = data['name']
             logging.info(f"GETHASH request for {name} received")
-            curr.execute('SELECT password FROM users WHERE name=%s;', (name,))
+            curr.execute('SELECT hash FROM user WHERE name=%s;', (name,))
             row =  curr.fetchone()
             if row == None:
                 response = {'success': False}
             else:
-                response = {'success': True, 'password': row[0]}
+                response = {'success': True, 'hash': row[0]}
         elif action == 'REGISTER':
             data = request['data']
             name = data['name']
-            password = data['password']
+            hashed = data['hash']
             logging.info(f"REGISTER request for {name} received")
-            curr.execute('SELECT * FROM users WHERE name=%s;', (name,))
+            curr.execute('SELECT * FROM user WHERE name=%s;', (name,))
             if curr.fetchone() != None:
                 response = {'success': False, 'message': 'User already exists'}
             else:
-                curr.execute('INSERT INTO users VALUES (%s, %s);', (name, password))
+                curr.execute('INSERT INTO user VALUES (%s, %s);', (name, hashed))
                 conn.commit()
                 response = {'success': True}
         else:
