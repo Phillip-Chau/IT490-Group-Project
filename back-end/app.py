@@ -37,7 +37,7 @@ def process_request(ch, method, properties, body):
                 response = {'success': False, 'message': 'User already exists'}
             else:
                 curr.execute('INSERT INTO user VALUES (%s, %s);', (name, hashed))
-                conn.commit()
+                cnx.commit()
                 response = {'success': True}
         else:
             response = {'success': False, 'message': "Unknown action"}
