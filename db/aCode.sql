@@ -1,0 +1,4 @@
+CREATE TABLE user (
+    name VARCHAR(20) PRIMARY KEY,
+    hash VARCHAR(255) NOT NULL
+);

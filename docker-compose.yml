@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+    messaging:
+        image: 'rabbitmq:3.8.8-management'
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+        ports:
+            - 15672:15672
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080
+    db1:
+        build: db/
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports: 
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_REPLICA_PASSWORD: ${MYSQL_REPLICA_PASSWORD}
+            MYSQL_NODES: "db1 db2"
+        volumes:
+            - data-volume:/var/lib/mysql
+    db2:
+       build: db/
+       command: --default-authentication-plugin=mysql_native_password
+       restart: always
+       ports:
+            - "3306:3306"
+       environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_REPLICA_PASSWORD: ${MYSQL_REPLICA_PASSWORD}
+            MYSQL_NODES: "db1 db2"
+       volumes:
+            - data-volume:/var/lib/mysql
+    front-end:
+        build: front-end/
+        ports:
+            - 5000:5000
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            FLASK_ENV: development
+            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+        volumes:
+            - "./front-end:/app"
+    back-end: 
+        build: ./back-end
+        environment:
+           RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+           RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+           MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+volumes:
+    data-volume:
